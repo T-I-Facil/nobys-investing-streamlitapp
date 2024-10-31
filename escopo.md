@@ -5,7 +5,7 @@ Planilha 1: Input de dados e visualização do calculo
 - calcular o valor de desconto por dia
 - calcular o valor pelo total de dias de adiantamento
 - mostrar o saldo final da nota
-- armazenar as informações da operação([Nome do cliente],[Valor inicial da nota],[número da nota fiscal],[valor dos juros])
+- armazenar as informações da operação([Nome do cliente],[Valor inicial da nota],[número da nota fiscal],[valor dos juros],[Valor emprestado], [dias adiantados])
 
 Estou precisando de sua ajuda para criar uma planilha no Excel que me permita calcular 
 os juros sobre o valor de notas fiscais que estou antecipando para meus clientes. Abaixo, descrevo as especificações que preciso:
