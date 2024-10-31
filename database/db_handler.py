@@ -4,7 +4,7 @@ from datetime import datetime
 
 class DbHandler:
     def __init__(self):
-        self.db: pd.DataFrame = pd.read_excel("database/database.xlsx", index_col=1)
+        self.db: pd.DataFrame = pd.read_excel("database/database.xlsx")
         self.db['data_operacao'] = pd.to_datetime(self.db['data_operacao'])
 
     def write_new_data(self, input_data: InputData):
@@ -19,3 +19,7 @@ class DbHandler:
     def search_by_date(self, date: datetime):
         result = self.db[self.db['data_operacao'].dt.date == date]
         return result
+
+    @property
+    def get_db(self):
+        return self.db
