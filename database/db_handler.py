@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 from .models.input_data import InputData
 from datetime import datetime
 
