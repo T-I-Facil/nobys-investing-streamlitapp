@@ -1,10 +1,11 @@
 from database.models.input_data import InputData
 import streamlit as st
 from components.input_form import get_input_form
-from database.db_handler import DbHandler
+from database.mongo_db import MongoDb
 from streamlit_extras.metric_cards import style_metric_cards
+from datetime import datetime, timedelta
 
-db_handler = DbHandler()
+db_handler = MongoDb()
 
 st.set_page_config(page_title="Nobys", layout="centered", page_icon="assets/nobys_logo.png")
 style_metric_cards(border_radius_px=20)
@@ -33,12 +34,20 @@ with st.form("Formulário"):
     dias_adiantados = input_data['dias_adiantados']
     valor_nota = input_data['valor_inicial_nota']
 
+    data_recebimento = input_data['data_operacao'] + timedelta(days=dias_adiantados)
+
     juros = (0.098/30)*7
     if dias_adiantados > 7:
         juros = (0.098/30)*dias_adiantados
 
     if submit:
-        input_data_atualizado = {**input_data, "juros": juros}
+        input_data_atualizado = {
+            **input_data, 
+            "juros": juros, 
+            "valor_final_da_nota": valor_nota-juros, 
+            "data_recebimento": data_recebimento
+            }
+        
         input_data = InputData(**input_data_atualizado)
-        db_handler.write_new_data(input_data)
+        db_handler.insert_invoice(input_data)
         st.success("Dados inseridos com sucesso!")
