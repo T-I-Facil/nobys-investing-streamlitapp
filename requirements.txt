@@ -4,3 +4,4 @@ plotly
 streamlit
 pydantic
 streamlit-extras
+cpf-cnpj-validate
