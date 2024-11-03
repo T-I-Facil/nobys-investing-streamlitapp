@@ -1,15 +1,15 @@
 from pymongo import MongoClient
 from config.environments import Environment
-from .models.input_data import InputData
+from .models.invoice_input import InvoiceInput
 import pandas as pd
 from datetime import timedelta
 
-class MongoDb:
+class InvoiceRepository:
     def __init__(self):
         self.client = MongoClient(Environment().MONGO_DB)
         self.db = self.client["Nobys-invest"]
 
-    def insert_invoice(self, invoice: InputData):
+    def insert_invoice(self, invoice: InvoiceInput):
         self.db["invoices"].insert_one(invoice.model_dump())
 
     def get_invoices(self, filters):

@@ -1,11 +1,12 @@
-from database.models.input_data import InputData
+from database.models.invoice_input import InputData
 import streamlit as st
 from components.input_form import get_input_form
-from database.mongo_db import MongoDb
+from database.invoice import InvoiceRepository
 from streamlit_extras.metric_cards import style_metric_cards
-from datetime import datetime, timedelta
+from streamlit_authenticator import Authenticate
+from datetime import timedelta
 
-db_handler = MongoDb()
+invoice_repository = InvoiceRepository()
 
 st.set_page_config(page_title="Nobys", layout="centered", page_icon="assets/nobys_logo.png")
 style_metric_cards(border_radius_px=20)
@@ -49,5 +50,5 @@ with st.form("Formulário"):
             }
         
         input_data = InputData(**input_data_atualizado)
-        db_handler.insert_invoice(input_data)
+        invoice_repository.insert_invoice(input_data)
         st.success("Dados inseridos com sucesso!")

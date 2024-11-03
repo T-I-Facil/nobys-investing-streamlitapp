@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from pycpfcnpj import cpfcnpj
 
-class InputData(BaseModel):
+class InvoiceInput(BaseModel):
     nome: str
     cpf: str
     valor_inicial_nota: float
