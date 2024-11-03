@@ -7,3 +7,4 @@ streamlit-extras
 cpf-cnpj-validate
 pymongo
 python-dotenv
+git+https://github.com/mkhorasani/Streamlit-Authenticator
