@@ -1,4 +1,4 @@
-from database.models.invoice_input import InputData
+from database.models.invoice_input import InvoiceInput
 import streamlit as st
 from components.input_form import get_input_form
 from database.invoice import InvoiceRepository
@@ -49,6 +49,6 @@ with st.form("Formulário"):
             "data_recebimento": data_recebimento
             }
         
-        input_data = InputData(**input_data_atualizado)
+        input_data = InvoiceInput(**input_data_atualizado)
         invoice_repository.insert_invoice(input_data)
         st.success("Dados inseridos com sucesso!")
