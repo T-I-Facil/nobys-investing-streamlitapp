@@ -1,10 +1,10 @@
 import streamlit as st
-from database.mongo_db import MongoDb
+from database.invoice import InvoiceRepository
 from components.sidebar_filters import get_sidebar_filters
 from session.load_session import load_session
 
 st.set_page_config(page_title="Registros", layout="centered", page_icon="assets/nobys_logo.png")
-db_handler = MongoDb()
+db_handler = InvoiceRepository()
 
 load_session()
 

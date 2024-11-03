@@ -1,12 +1,14 @@
 import streamlit as st
-from database.mongo_db import MongoDb
+from database.invoice import InvoiceRepository
 import plotly.express as px
-import plotly.graph_objects as go
+from session.load_session import load_session
 
 st.set_page_config(page_title="Dashboard", layout="centered", page_icon="assets/nobys_logo.png")
-db_handler = MongoDb()
+db_handler = InvoiceRepository()
 
-df = db_handler.get_invoices_df()
+load_session()
+
+df = db_handler.get_invoices_df(st.session_state.filters)
 
 fig = px.bar(df, x='nome', y='valor_emprestado', title='Valor Emprestado por Pessoa')
 st.plotly_chart(fig)
