@@ -4,13 +4,21 @@ from components.sidebar_filters import get_sidebar_filters
 from session.load_session import load_session
 
 st.set_page_config(page_title="Registros", layout="centered", page_icon="assets/nobys_logo.png")
+st.sidebar.image("assets/nobys_banner.png")
 db_handler = InvoiceRepository()
 
 load_session()
 
+if not st.session_state.logged_in:
+    st.error("Login inválido. Por favor, realize o login novamente.")
+    st.stop()
+
 get_sidebar_filters()
 
 df = db_handler.get_invoices_df(st.session_state.filters)
+
+if not st.session_state.is_admin:
+    df.drop("approved", axis=1, inplace=True)
 
 edited_df = st.dataframe(
     data=df, 
@@ -29,6 +37,7 @@ edited_df = st.dataframe(
         "data_recebimento": st.column_config.DateColumn("Data de Recebimento", format="DD/MM/YYYY", required=True),
         "valor_final_da_nota": st.column_config.NumberColumn("Valor Final da Nota", format="R$ %.2f", required=True),
         "data_registro": st.column_config.DateColumn("Data de Registro", format="DD/MM/YYYY", required=True),
+        "approved": st.column_config.CheckboxColumn("Aprovado", required=True) if st.session_state.is_admin else None,
     }
 )
 
@@ -42,3 +51,10 @@ else:
         submit = st.button("Deletar")
         if submit:
             db_handler.delete_invoice(invoice)
+
+    if st.session_state.is_admin:
+        with st.expander("Aprovar Registro"):
+            invoice = st.selectbox("Nota Fiscal:", df["nota_fiscal"])
+            submit = st.button("Aprovar")
+            if submit:
+                db_handler.approve_invoice(invoice)

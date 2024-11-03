@@ -34,7 +34,10 @@ class InvoiceRepository:
     def get_invoices_df(self, filters):
         filters = {k: v for k, v in filters.items() if v not in (None, '', [])}
 
-        return pd.DataFrame(self.get_invoices(filters))
+        return pd.DataFrame(self.get_invoices(filters)).drop("_id", axis=1)
     
     def delete_invoice(self, invoice: str):
         self.db["invoices"].delete_one({"nota_fiscal": invoice})
+
+    def approve_invoice(self, invoice: str):
+        self.db["invoices"].update_one({"nota_fiscal": invoice}, {"$set": {"approved": True}})
