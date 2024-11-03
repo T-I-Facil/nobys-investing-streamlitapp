@@ -6,3 +6,4 @@ pydantic
 streamlit-extras
 cpf-cnpj-validate
 pymongo
+python-dotenv
