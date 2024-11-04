@@ -19,10 +19,10 @@ class InvoiceRepository:
             "nota_fiscal": filters.get("nota_fiscal"),
         }
 
-        if filters.get("data_registro"):
-            start_of_day = filters["data_registro"].replace(hour=0, minute=0, second=0, microsecond=0)
-            end_of_day = start_of_day + timedelta(days=1)
-            query_filters["data_registro"] = {"$gte": start_of_day, "$lt": end_of_day}
+        if filters.get("data_registro_inicial") and filters.get("data_registro_final"):
+            start_of_day = filters["data_registro_inicial"].replace(hour=0, minute=0, second=0, microsecond=0)
+            end_of_day = filters["data_registro_final"].replace(hour=23, minute=59, second=59, microsecond=999999)
+            query_filters["data_registro"] = {"$gte": start_of_day, "$lte": end_of_day}
 
 
         query_filters = {k: v for k, v in query_filters.items() if v is not None}
@@ -34,7 +34,21 @@ class InvoiceRepository:
     def get_invoices_df(self, filters):
         filters = {k: v for k, v in filters.items() if v not in (None, '', [])}
 
-        return pd.DataFrame(self.get_invoices(filters)).drop("_id", axis=1)
+        return pd.DataFrame(self.get_invoices(filters))[[
+            "nome", 
+            "cpf", 
+            "nome_empresa",
+            "approved", 
+            "data_recebimento", 
+            "valor_final_da_nota", 
+            "data_registro", 
+            "data_operacao", 
+            "valor_inicial_nota", 
+            "juros", 
+            "dias_adiantados", 
+            "nota_fiscal", 
+            "_id"
+        ]]
     
     def delete_invoice(self, invoice: str):
         self.db["invoices"].delete_one({"nota_fiscal": invoice})
