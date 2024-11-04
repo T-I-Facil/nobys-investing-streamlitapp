@@ -8,7 +8,7 @@ from database.invoice import InvoiceRepository
 from streamlit_extras.metric_cards import style_metric_cards
 from datetime import timedelta
 
-st.set_page_config(page_title="Cadastro", layout="centered", page_icon="assets/nobys_logo.png")
+st.set_page_config(page_title="Cadastro", layout="wide", page_icon="assets/nobys_logo.png")
 style_metric_cards(border_radius_px=20)
 auth_repository = AuthenticatorRepository()
 invoice_repository = InvoiceRepository()

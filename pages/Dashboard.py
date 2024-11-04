@@ -3,7 +3,7 @@ from database.invoice import InvoiceRepository
 import plotly.express as px
 from session.load_session import load_session
 
-st.set_page_config(page_title="Dashboard", layout="centered", page_icon="assets/nobys_logo.png")
+st.set_page_config(page_title="Dashboard", layout="wide", page_icon="assets/nobys_logo.png")
 st.sidebar.image("assets/nobys_banner.png")
 db_handler = InvoiceRepository()
 
