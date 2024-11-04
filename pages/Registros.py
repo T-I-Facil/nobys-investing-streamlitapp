@@ -48,7 +48,7 @@ if (
     compare_and_update(
         st.session_state["value_invoices"].copy(),
         st.session_state.panel_invoices.copy(),
-        db_handler.db["invoices"],
+        db_handler,
     )
 
     # Após o request ser feito, o valor de value é alterado pelo valor após a alteração do dataframe.

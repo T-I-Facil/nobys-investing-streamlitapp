@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from config.environments import Environment
 from .models.invoice_input import InvoiceInput
 import pandas as pd
-from datetime import timedelta
+from bson import ObjectId
 
 class InvoiceRepository:
     def __init__(self):
@@ -29,8 +29,10 @@ class InvoiceRepository:
 
         return self.db["invoices"].find(query_filters)
 
+    def update_invoice(self, _id, key, value):
+       _id = ObjectId(_id)
+       self.db["invoices"].update_one({"_id": _id}, {"$set": {key: value}})
 
-    
     def get_invoices_df(self, filters):
         filters = {k: v for k, v in filters.items() if v not in (None, '', [])}
 

@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from pandas._libs.tslibs.timestamps import Timestamp
+from database.invoice import InvoiceRepository
 
 def format_param(param):
     if type(param) is bool:
@@ -34,7 +35,7 @@ def format_key(key):
         "Aprovado": "approved",
     }.get(key, key.lower().replace(" ", "_"))
 
-def compare_and_update(original: pd.DataFrame, updated: pd.DataFrame, db_handler):
+def compare_and_update(original: pd.DataFrame, updated: pd.DataFrame, db_handler: InvoiceRepository):
     # Verifica se ambos os DataFrames têm as mesmas colunas
     original = original[updated.columns]  # Alinha as colunas do original com as do updated
 
@@ -59,10 +60,7 @@ def compare_and_update(original: pd.DataFrame, updated: pd.DataFrame, db_handler
         update_value = format_param(value)
         
         # Realiza a atualização no MongoDB
-        db_handler.update_one(
-            {"_id": _id},
-            {"$set": {update_field: update_value}}
-        )
+        db_handler.update_invoice(_id, update_field, update_value)
 
         print(f"Updated {_id}: {update_field} -> {update_value}")
 
