@@ -7,6 +7,7 @@ from components.input_form import get_input_form
 from database.invoice import InvoiceRepository
 from streamlit_extras.metric_cards import style_metric_cards
 from datetime import timedelta
+from session.delete_session import delete_session
 
 st.set_page_config(page_title="Cadastro", layout="wide", page_icon="assets/nobys_logo.png")
 style_metric_cards(border_radius_px=20)
@@ -74,3 +75,4 @@ else:
             input_data = InvoiceInput(**input_data_atualizado)
             invoice_repository.insert_invoice(input_data)
             st.success("Dados inseridos com sucesso!")
+            delete_session()

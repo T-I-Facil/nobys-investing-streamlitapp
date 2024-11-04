@@ -20,7 +20,7 @@ if not st.session_state.logged_in:
 
 df = db_handler.get_invoices_df(st.session_state.period)
 # Calcula o valor dos juros para cada linha
-df["juros_em_reais"] = df["juros"] * df["valor_inicial_nota"]
+df["juros_em_reais"] =  df["valor_inicial_nota"] - df['valor_final_da_nota']
 
 # Soma todos os valores de juros em reais para obter o total
 total_juros_arrecadados = df["juros_em_reais"].sum()
@@ -30,9 +30,9 @@ m1, m2, m3 = st.columns(3)
 
 m1.metric(label="Total de Notas", value=f"{df.shape[0]:,.0f}".replace(".", ","))
 
-m2.metric(label="Total de Juros Arrecadados", value=f"R$ {total_juros_arrecadados:,.2f}".replace(".", ","))
+m2.metric(label="Total de Juros", value=f"R$ {total_juros_arrecadados:,.2f}".replace(".", ","))
 
-m3.metric(label="Total Arrecadado", value=f"R$ {df['valor_emprestado'].sum():,.0f}".replace(",", "."))
+m3.metric(label="Total de Notas em R$", value=f"R$ {df['valor_inicial_nota'].sum():,.0f}".replace(",", "."))
 
 fig = px.bar(df, x='nome', y='valor_emprestado', title='Valor Emprestado por Pessoa')
 st.plotly_chart(fig)
