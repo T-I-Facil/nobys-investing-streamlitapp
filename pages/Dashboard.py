@@ -25,23 +25,20 @@ df["juros_em_reais"] =  df["valor_inicial_nota"] - df['valor_final_da_nota']
 # Soma todos os valores de juros em reais para obter o total
 total_juros_arrecadados = df["juros_em_reais"].sum()
 
-
 m1, m2, m3 = st.columns(3)
 
 m1.metric(label="Total de Notas", value=f"{df.shape[0]:,.0f}".replace(".", ","))
-
 m2.metric(label="Total de Juros", value=f"R$ {total_juros_arrecadados:,.2f}".replace(".", ","))
-
 m3.metric(label="Total de Notas em R$", value=f"R$ {df['valor_inicial_nota'].sum():,.0f}".replace(",", "."))
 
-fig = px.bar(df, x='nome', y='valor_emprestado', title='Valor Emprestado por Pessoa')
+df_grouped_sum = df.groupby("data_operacao").sum(numeric_only=True).reset_index().sort_values(by="data_operacao")
+df_grouped_mean = df.groupby("data_operacao").mean(numeric_only=True).reset_index().sort_values(by="data_operacao")
+
+fig = px.line(df_grouped_sum, x='data_operacao', y=['valor_emprestado', 'juros'], title='Valor Emprestado e Juros ao Longo do Tempo')
 st.plotly_chart(fig)
 
-fig = px.bar(df, x='nome', y='juros', title='Juros por Pessoa')
+fig = px.line(df_grouped_sum, x='data_operacao', y='valor_inicial_nota', title='Total de Notas por Data')
 st.plotly_chart(fig)
 
-fig = px.line(df, x='data_operacao', y=['valor_emprestado', 'juros'], title='Valor Emprestado e Juros ao Longo do Tempo')
-st.plotly_chart(fig)
-
-fig = px.scatter(df, x='valor_inicial_nota', y='juros', color='nome', title='Valor Inicial da Nota vs Juros')
+fig = px.line(df_grouped_mean, x='data_operacao', y='juros_em_reais', title='Média de Juros por Data')
 st.plotly_chart(fig)
