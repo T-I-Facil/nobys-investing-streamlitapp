@@ -29,3 +29,16 @@ def get_sidebar_filters():
                 "data_registro_final": datetime.combine(data_registro_final, datetime.max.time()),
                 "nota_fiscal": nota_fiscal
             }
+
+def get_periods_filters():
+    default_data_inicial = datetime.now().date() - timedelta(days=10)
+
+    with st.sidebar:
+        data_registro_inicial = st.date_input("Data de Registro Inicial", value=default_data_inicial, format="DD/MM/YYYY")
+        data_registro_final = st.date_input("Data de Registro Final", format="DD/MM/YYYY")
+
+    st.session_state.period = {
+        "data_registro_inicial": datetime.combine(data_registro_inicial, datetime.min.time()),
+        "data_registro_final": datetime.combine(data_registro_final, datetime.max.time()),
+    }
+

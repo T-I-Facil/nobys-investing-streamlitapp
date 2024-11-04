@@ -2,19 +2,20 @@ import streamlit as st
 from database.invoice import InvoiceRepository
 import plotly.express as px
 from session.load_session import load_session
+from components.sidebar_filters import get_periods_filters
 
 st.set_page_config(page_title="Dashboard", layout="wide", page_icon="assets/nobys_logo.png")
 st.sidebar.image("assets/nobys_banner.png")
 db_handler = InvoiceRepository()
 
 load_session()
+get_periods_filters()
 
 if not st.session_state.logged_in:
     st.error("Login inválido. Por favor, realize o login novamente.")
     st.stop()
 
-df = db_handler.get_invoices_df(st.session_state.filters)
-df = db_handler.get_invoices_df(st.session_state.filters)
+df = db_handler.get_invoices_df(st.session_state.period)
 
 fig = px.bar(df, x='nome', y='valor_emprestado', title='Valor Emprestado por Pessoa')
 st.plotly_chart(fig)

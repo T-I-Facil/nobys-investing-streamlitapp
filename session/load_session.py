@@ -9,3 +9,6 @@ def load_session():
 
     if "is_admin" not in st.session_state:
         st.session_state.is_admin = False
+
+    if "period" not in st.session_state:
+        st.session_state.period = {}

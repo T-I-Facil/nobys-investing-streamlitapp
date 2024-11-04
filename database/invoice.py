@@ -41,6 +41,7 @@ class InvoiceRepository:
             "cpf", 
             "nome_empresa",
             "approved", 
+            "valor_emprestado",
             "data_recebimento", 
             "valor_final_da_nota", 
             "data_registro", 
