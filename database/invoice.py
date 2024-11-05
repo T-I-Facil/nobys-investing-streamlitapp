@@ -36,7 +36,11 @@ class InvoiceRepository:
     def get_invoices_df(self, filters):
         filters = {k: v for k, v in filters.items() if v not in (None, '', [])}
 
-        return pd.DataFrame(self.get_invoices(filters))[[
+        df = pd.DataFrame(self.get_invoices(filters))
+        if len(df) == 0:
+            return pd.DataFrame()
+        
+        return df[[
             "nome", 
             "cpf", 
             "nome_empresa",

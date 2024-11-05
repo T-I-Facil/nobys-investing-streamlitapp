@@ -19,6 +19,10 @@ if not st.session_state.logged_in:
     st.error("Login inválido. Por favor, realize o login novamente.")
     st.stop()
 
+update = st.sidebar.button("Atualizar Dados")
+if update:
+    st.rerun()
+
 get_sidebar_filters()
 
 if "invoices" not in st.session_state:
@@ -29,7 +33,7 @@ if "invoices" not in st.session_state:
     # é feito.
     st.session_state.invoices = invoice.get_invoices_df(st.session_state.filters)
 
-    if not st.session_state.is_admin:
+    if not st.session_state.is_admin and len(st.session_state.invoices) > 0:
         st.session_state.invoices.drop("approved", axis=1, inplace=True)
 
 if "value_invoices" not in st.session_state:
@@ -38,6 +42,9 @@ if "value_invoices" not in st.session_state:
     # com o dataframe de "value" e o dataframe alterado é inserido em seu lugar.
     st.session_state.value_invoices = st.session_state.invoices
     
+if len(st.session_state.invoices) == 0:
+    st.error("Nenhuma nota fiscal encontrada.")
+    st.stop()
 
 get_invoices_panel(st.session_state.invoices)
 get_expanders(invoice)
