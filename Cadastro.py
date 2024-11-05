@@ -63,13 +63,16 @@ else:
             juros = (0.098/30)*dias_adiantados
 
         juros_final = juros*valor_nota
+        valor_final_da_nota = valor_nota - juros_final
+        juros_em_reais= valor_nota - valor_final_da_nota
 
         if submit:
             input_data_atualizado = {
                 **input_data, 
                 "juros": juros*100, 
                 "valor_final_da_nota": valor_nota-juros_final, 
-                "data_recebimento": data_recebimento
+                "data_recebimento": data_recebimento,
+                "juros_em_reais": juros_em_reais
                 }
             
             input_data = InvoiceInput(**input_data_atualizado)

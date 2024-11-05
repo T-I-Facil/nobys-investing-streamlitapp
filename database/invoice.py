@@ -48,6 +48,7 @@ class InvoiceRepository:
             "data_operacao", 
             "valor_inicial_nota", 
             "juros", 
+            "juros_em_reais",
             "dias_adiantados", 
             "nota_fiscal", 
             "_id"

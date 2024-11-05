@@ -17,6 +17,7 @@ class InvoiceInput(BaseModel):
     valor_final_da_nota: float
     data_recebimento: datetime
     approved: bool = False
+    juros_em_reais: float
     
     @validator("cpf")
     def validate_cpf(cls, value):
