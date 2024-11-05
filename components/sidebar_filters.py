@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 import streamlit as st
+from session.delete_session import delete_session
 
 def get_sidebar_filters():
     with st.sidebar:
-        form = st.form("Formulário")
+        form = st.form("Formulário", clear_on_submit=True)
         
         # Definindo o valor padrão de data_registro_inicial para 10 dias antes do dia atual
         default_data_inicial = datetime.now().date() - timedelta(days=10)
@@ -20,6 +21,7 @@ def get_sidebar_filters():
 
         if clear:
             st.session_state.filters = {}
+            delete_session()
 
         if apply:
             st.session_state.filters = {
@@ -29,6 +31,7 @@ def get_sidebar_filters():
                 "data_registro_final": datetime.combine(data_registro_final, datetime.max.time()),
                 "nota_fiscal": nota_fiscal
             }
+            delete_session()
 
 def get_periods_filters():
     default_data_inicial = datetime.now().date() - timedelta(days=10)

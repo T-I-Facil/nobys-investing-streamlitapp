@@ -1,5 +1,4 @@
 import streamlit as st
-from session.delete_session import delete_session
 
 def get_expanders(db_handler):
     if len(st.session_state.invoices) == 0:

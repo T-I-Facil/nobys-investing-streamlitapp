@@ -5,5 +5,3 @@ def delete_session():
     for key in st.session_state.keys():
         if type(st.session_state[key]) == type(pd.DataFrame()):
             del st.session_state[key]
-
-    del st.session_state.filters
