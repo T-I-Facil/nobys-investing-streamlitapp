@@ -5,10 +5,13 @@ from components.sidebar_filters import get_sidebar_filters
 from components.expanders import get_expanders
 from components.panel import get_invoices_panel
 from session.load_session import load_session
+from database.cashbox import CashboxRepository
+import plotly.express as px
 
 st.set_page_config(page_title="Registros", layout="wide", page_icon="assets/nobys_logo.png")
 st.sidebar.image("assets/nobys_banner.png")
-db_handler = InvoiceRepository()
+invoice = InvoiceRepository()
+cashbox = CashboxRepository()
 
 load_session()
 
@@ -24,7 +27,7 @@ if "invoices" not in st.session_state:
     # uma vez por período selecionado e uma vez que a variável de sessão é criada. O seu valor é CONSTANTE.
     # Sempre que um filtro é adicionado ou o período é alterado, a sessão é deletada e um novo request
     # é feito.
-    st.session_state.invoices = db_handler.get_invoices_df(st.session_state.filters)
+    st.session_state.invoices = invoice.get_invoices_df(st.session_state.filters)
 
     if not st.session_state.is_admin:
         st.session_state.invoices.drop("approved", axis=1, inplace=True)
@@ -37,7 +40,7 @@ if "value_invoices" not in st.session_state:
     
 
 get_invoices_panel(st.session_state.invoices)
-get_expanders(db_handler)
+get_expanders(invoice)
 
 if (
     st.session_state.panel_invoices is not None
@@ -48,8 +51,52 @@ if (
     compare_and_update(
         st.session_state["value_invoices"].copy(),
         st.session_state.panel_invoices.copy(),
-        db_handler,
+        invoice,
     )
 
     # Após o request ser feito, o valor de value é alterado pelo valor após a alteração do dataframe.
     st.session_state["value_invoices"] = st.session_state.panel_invoices
+
+transactions = cashbox.get_transactions()
+with st.form("Caixa"):
+    st.markdown("### Caixa")
+
+    a1, a2, a3 = st.columns(3)
+
+    amount = a1.number_input("Inserir Valor", step=0.5)
+    tipo = a2.selectbox("Tipo", ["Entrada", "Saída"])
+    description = st.text_input("Razão da Transação")
+
+    submit = st.form_submit_button("Enviar")
+
+    if submit:
+        data = {
+            "amount": amount,
+            "type": tipo,
+            "description": description,
+            "user": st.session_state.username,
+        }
+
+        cashbox.add_transaction(data)
+
+if len(transactions) == 0:
+    st.markdown("### Nenhuma Transação Encontrada")
+
+else:   
+    with st.container():
+        st.markdown(f"### Saldo: R$ {cashbox.get_balance()}")
+        s1, s2 = st.columns(2)
+        s2.dataframe(transactions, column_config={
+            "date": st.column_config.DateColumn("Data", format="DD/MM/YYYY"),
+            "amount": st.column_config.NumberColumn("Valor", format="R$ %.2f"),
+            "type": st.column_config.TextColumn("Tipo"),
+            "description": st.column_config.TextColumn("Razão"),
+            "balance": st.column_config.NumberColumn("Saldo", format="R$ %.2f"),
+            "user": st.column_config.TextColumn("Usuário"),
+            },
+            use_container_width=True,
+            hide_index=True
+        )
+
+        fig = px.line(transactions, x='date', y='balance', title='Transações')
+        s1.plotly_chart(fig)

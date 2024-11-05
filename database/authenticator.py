@@ -14,6 +14,6 @@ class AuthenticatorRepository:
             st.session_state.logged_in = False
             return
 
-        st.session_state.user = user
+        st.session_state.username = user['login']
         st.session_state.is_admin = user["is_admin"]
         st.session_state.logged_in = True
