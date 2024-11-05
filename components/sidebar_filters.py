@@ -16,8 +16,8 @@ def get_sidebar_filters():
         nota_fiscal = form.text_input("Nº Nota Fiscal")
 
         c1, c2, _ = form.columns(3)
-        clear = c1.form_submit_button("Clear")
-        apply = c2.form_submit_button("Apply")
+        clear = c1.form_submit_button("Limpar")
+        apply = c2.form_submit_button("Aplicar")
 
         if clear:
             st.session_state.filters = {}
