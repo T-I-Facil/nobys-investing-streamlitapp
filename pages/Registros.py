@@ -7,6 +7,7 @@ from components.panel import get_invoices_panel
 from session.load_session import load_session
 from database.cashbox import CashboxRepository
 import plotly.express as px
+from session.delete_session import delete_session
 
 st.set_page_config(page_title="Registros", layout="wide", page_icon="assets/nobys_logo.png")
 st.sidebar.image("assets/nobys_banner.png")
@@ -21,6 +22,7 @@ if not st.session_state.logged_in:
 
 update = st.sidebar.button("Atualizar Dados")
 if update:
+    delete_session()
     st.rerun()
 
 get_sidebar_filters()

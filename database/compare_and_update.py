@@ -9,6 +9,9 @@ def format_param(param):
 
     if type(param) is np.int64 or type(param) is np.float64:
         return param
+    
+    if type(param) is np.bool_:
+        return bool(param)
 
     if type(param) is int or type(param) is float:
         return param
