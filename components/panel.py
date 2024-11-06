@@ -7,9 +7,9 @@ def get_invoices_panel(df):
         use_container_width=True, 
         column_config={
             "data_operacao": st.column_config.DateColumn("Data da Operação", format="DD/MM/YYYY", required=True),
-            "valor_inicial_nota": st.column_config.NumberColumn("Valor da Nota", format="R$ %.2f", required=True),
+            "valor_inicial_nota": st.column_config.NumberColumn("Valor Emprestado", format="R$ %.2f", required=True),
             "nota_fiscal": st.column_config.TextColumn("Nº Nota Fiscal", required=True),
-            "valor_emprestado": st.column_config.NumberColumn("Valor Emprestado", format="R$ %.2f", required=True),
+            "valor_emprestado": st.column_config.NumberColumn("Valor Adiantado", format="R$ %.2f", required=True),
             "dias_adiantados": st.column_config.NumberColumn("Dias Adiantados", format="%.0f", required=True),
             "juros": st.column_config.NumberColumn("Juros", format="%.2f%%", required=True),
             "nome": st.column_config.TextColumn("Cliente", required=True),

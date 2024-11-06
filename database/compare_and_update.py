@@ -24,9 +24,9 @@ def format_param(param):
 def format_key(key):
     return {
         "Data da Operação": "data_operacao",
-        "Valor da Nota": "valor_inicial_nota",
+        "Valor Emprestado": "valor_inicial_nota",
         "Nº Nota Fiscal": "nota_fiscal",
-        "Valor Emprestado": "valor_emprestado",
+        "Valor Adiantado": "valor_emprestado",
         "Dias Adiantados": "dias_adiantados",
         "Juros": "juros",
         "Cliente": "nome",
