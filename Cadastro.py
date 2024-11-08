@@ -25,7 +25,7 @@ if not st.session_state.get("logged_in"):
         if st.form_submit_button("Login"):
             if auth_repository.login(credentials["email"], credentials["password"]):
                 st.success("Login realizado com sucesso!")
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Login ou senha inválidos")
 else:

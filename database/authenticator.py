@@ -10,6 +10,7 @@ class AuthenticatorRepository:
 
     def login(self, email, password):
         user = self.db["credentials"].find_one({"email": email, "password": password})
+        print(user)
         if not user:
             st.session_state.logged_in = False
             return
@@ -17,3 +18,4 @@ class AuthenticatorRepository:
         st.session_state.username = user['login']
         st.session_state.is_admin = user["is_admin"]
         st.session_state.logged_in = True
+        return True
