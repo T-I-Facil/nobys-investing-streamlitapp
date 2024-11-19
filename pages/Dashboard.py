@@ -19,6 +19,12 @@ if not st.session_state.logged_in:
     st.stop()
 
 df = db_handler.get_invoices_df(st.session_state.period)
+
+if len(df) == 0:
+    st.error("Nenhuma nota fiscal encontrada.")
+    st.stop()
+    
+df.to_excel("sekiro.xlsx")
 # Calcula o valor dos juros para cada linha
 df["juros_em_reais"] =  df["valor_inicial_nota"] - df['valor_final_da_nota']
 
