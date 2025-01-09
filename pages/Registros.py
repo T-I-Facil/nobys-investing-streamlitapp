@@ -4,6 +4,7 @@ from database.compare_and_update import compare_and_update
 from components.sidebar_filters import get_sidebar_filters
 from components.expanders import get_expanders
 from components.panel import get_invoices_panel
+from components.download_button import export_button
 from session.load_session import load_session
 from database.cashbox import CashboxRepository
 import plotly.express as px
@@ -65,6 +66,8 @@ if (
 
     # Após o request ser feito, o valor de value é alterado pelo valor após a alteração do dataframe.
     st.session_state["value_invoices"] = st.session_state.panel_invoices
+
+export_button(st.session_state.value_invoices)
 
 transactions = cashbox.get_transactions()
 with st.form("Caixa"):
