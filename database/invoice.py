@@ -47,7 +47,6 @@ class InvoiceRepository:
             "approved", 
             "valor_emprestado",
             "data_recebimento", 
-            "valor_final_da_nota", 
             "data_registro", 
             "data_operacao", 
             "valor_inicial_nota", 

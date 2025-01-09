@@ -16,7 +16,6 @@ def get_invoices_panel(df):
             "cpf": st.column_config.TextColumn("CPF", required=True),
             "nome_empresa": st.column_config.TextColumn("Nome da Empresa", required=True),
             "data_recebimento": st.column_config.DateColumn("Data de Recebimento", format="DD/MM/YYYY", required=True),
-            "valor_final_da_nota": st.column_config.NumberColumn("Valor Final da Nota", format="R$ %.2f", required=True),
             "data_registro": st.column_config.DateColumn("Data de Registro", format="DD/MM/YYYY", required=True),
             "approved": st.column_config.CheckboxColumn("Aprovado", required=True) if st.session_state.is_admin else None,
             "juros_em_reais": st.column_config.NumberColumn("Juros(R$)", format="R$ %.2f", required=True),

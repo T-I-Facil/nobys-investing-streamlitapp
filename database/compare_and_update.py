@@ -33,7 +33,6 @@ def format_key(key):
         "CPF": "cpf",
         "Nome da Empresa": "nome_empresa",
         "Data de Recebimento": "data_recebimento",
-        "Valor Final da Nota": "valor_final_da_nota",
         "Data de Registro": "data_registro",
         "Aprovado": "approved",
     }.get(key, key.lower().replace(" ", "_"))
