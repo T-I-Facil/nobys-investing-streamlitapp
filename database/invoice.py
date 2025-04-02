@@ -10,6 +10,7 @@ class InvoiceRepository:
         self.db = self.client["Nobys-invest"]
 
     def insert_invoice(self, invoice: InvoiceInput):
+        print(invoice)
         self.db["invoices"].insert_one(invoice.model_dump())
 
     def get_invoices(self, filters):
@@ -52,6 +53,7 @@ class InvoiceRepository:
             "valor_inicial_nota", 
             "juros", 
             "juros_em_reais",
+            "valor_final_da_nota",
             "dias_adiantados", 
             "nota_fiscal", 
             "_id"
