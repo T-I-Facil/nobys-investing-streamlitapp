@@ -3,7 +3,6 @@ version: "3.9"
 services:
   streamlit-app:
     build: .
-    container_name: streamlit-app
     restart: always
     env_file:
       - .env
@@ -16,11 +15,12 @@ services:
       --server.enableXsrfProtection=false
 
     labels:
+      - "coolify.managed=true"
       - "traefik.enable=true"
 
       # Router
       - "traefik.http.routers.streamlit.rule=Host(`nobyscalculadora.online`)"
-      - "traefik.http.routers.streamlit.entrypoints=websecure"
+      - "traefik.http.routers.streamlit.entrypoints=web,websecure"
       - "traefik.http.routers.streamlit.tls=true"
 
       # Service
