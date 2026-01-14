@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  streamlit-app:
+    build: .
+    container_name: streamlit-app
+    restart: always
+    env_file:
+      - .env
+
+    command: >
+      streamlit run Cadastro.py
+      --server.port=8501
+      --server.address=0.0.0.0
+      --server.enableCORS=false
+      --server.enableXsrfProtection=false
+
+    labels:
+      - "traefik.enable=true"
+
+      # Router
+      - "traefik.http.routers.streamlit.rule=Host(`nobyscalculadora.online`)"
+      - "traefik.http.routers.streamlit.entrypoints=websecure"
+      - "traefik.http.routers.streamlit.tls=true"
+
+      # Service
+      - "traefik.http.services.streamlit.loadbalancer.server.port=8501"
